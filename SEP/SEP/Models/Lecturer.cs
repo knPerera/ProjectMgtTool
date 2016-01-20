@@ -16,6 +16,8 @@ namespace SEP.Models
         public string Module { get; set; }
         public string Qualification { get; set; }
         public string Avatar { get; set; }
+        public string password { get; set; }
+
 
 
     }
