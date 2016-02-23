@@ -1,0 +1,11 @@
+﻿@model IEnumerable<SEP.Models.Group>
+
+@{
+    ViewBag.Title = "Error";
+}
+
+<h2 style="color:red">You Have Already Added this Group ID.Please try a new GroupID</h2>
+
+<a href="~/Groups/Create" class="btn btn-info btn-sm">
+    <span class="glyphicon glyphicon-arrow-left"></span> Add a New GroupID
+</a>

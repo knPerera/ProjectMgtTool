@@ -1,0 +1,93 @@
+﻿@model IPagedList<Student>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Students Enrolled";
+}
+
+<h2>Students Enrolled</h2>
+
+@using (Ajax.BeginForm(
+                new AjaxOptions
+                {
+                    HttpMethod = "get",
+                    InsertionMode = InsertionMode.Replace,
+                    UpdateTargetId = "st_1"
+                }))
+{
+    <div class="row mt form-inline" style="margin-left:2px">
+       <div class="form-inline"> <input class="form-control" type="search" name="searchterm" id="exampleInputEmail2" />
+        <input type="submit" value="SearchByName" class="btn btn-theme" /></div>
+    </div>
+
+}
+
+        <div id="st_1">
+            <div class="pagedList" data-otf-target="#st_1">
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.MinimalWithItemCountText)
+            </div>
+            <table class="table">
+                <tr>
+                    <th>
+                        <h4>Name</h4>
+                    </th>
+                    <th>
+                        <h4>Email</h4>
+                    </th>
+                    <th>
+                        <h4>Contact No</h4>
+                    </th>
+                    <th>
+                        <h4>CGPA</h4>
+                    </th>
+                    <th>
+                        <h4>Avatar</h4>
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ContactNo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CGPA)
+                        </td>
+                        <td>
+                            <img src="@item.Avatar" height="100" width="100" />
+
+                        </td>
+
+                        <td>
+                            @*<button type="button" class="btn btn-default btn-sm">
+                                <span class="glyphicon glyphicon-edit" aria-hidden='true'></span>
+                                <a href="@Url.Action("Edit",new { id=item.RegistrationNo })">Edit</a>
+                            </button>|*@
+                            <button type="button" class="btn btn-default btn-sm">
+                                <span class="glyphicon glyphicon-eye-open" aria-hidden='true'></span>
+                                <a href="@Url.Action("Details",new { id=item.RegistrationNo })">Details</a>
+                            </button>|
+                            <button type="button" class="btn btn-default btn-sm" id="ais_1">
+                                <span class="glyphicon glyphicon-folder-close" aria-hidden='true'></span>
+                                <a href="@Url.Action("Delete",new { id=item.RegistrationNo })">Delete</a>
+                            </button>
+                            @*@Html.ActionLink("Edit", "Edit", new { id=item.RegistrationNo }) |
+                                @Html.ActionLink("Details", "Details", new { id=item.RegistrationNo }) |
+                                @Html.ActionLink("Delete", "Delete", new { id=item.RegistrationNo })*@
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+        @section scripts{
+            @Scripts.Render("~/bundles/jqueryval")
+            @Scripts.Render("~/bundles/bootstrap")
+        }

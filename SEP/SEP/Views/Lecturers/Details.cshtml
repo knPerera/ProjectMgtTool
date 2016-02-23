@@ -1,0 +1,117 @@
+﻿@model SEP.Models.Lecturer
+
+@{
+    ViewBag.Title = "Details";
+}
+
+@*<h2>Details</h2>
+
+<div>
+    <h4>Lecturer</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Module)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Module)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Qualification)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Qualification)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Avatar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Avatar)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.LecturerId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>*@
+<h2>Details</h2>
+<br>
+<div class="row" style="margin-left:120px;margin-top:-10px">
+    <div class="col-md-2"></div>
+    <div class="col-md-10">
+        <div class="col-lg-4 col-md-4 col-sm-4 mb">
+            <!-- WHITE PANEL - TOP USER -->
+            <div class="white-panel pn" style="width:450px;height:400px">
+                <div class="white-header">
+                    <h5>Lecturer Details</h5>
+                </div>
+                <p><img src="@Model.Avatar" class="img-circle" width="100" height="100"></p>
+                <p class="green-header"><b>@Html.DisplayFor(model => model.Name)</b></p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="green-header">Email</p>
+                        <p>@Html.DisplayFor(model => model.Email)</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="green-header">Contact No</p>
+                        <p>@Html.DisplayFor(model => model.ContactNo)</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="green-header">Qualifications</p>
+                        <p>@Html.DisplayFor(model => model.Qualification)</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="green-header">Module</p>
+                        <p>@Html.DisplayFor(model => model.Module)</p>
+                    </div>
+                </div>
+
+
+
+               
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>
+                            @Html.ActionLink("Edit", "Edit", new { id = Model.LecturerId }) |
+                            @Html.ActionLink("Back to List", "Index")
+                        </p>
+                    </div>
+                </div>
+
+
+            </div>
+        </div><!-- /col-md-4 -->
+    </div>
+</div>
