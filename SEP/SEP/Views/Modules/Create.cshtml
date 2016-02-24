@@ -1,0 +1,85 @@
+﻿@model SEP.Models.Module
+
+@{
+    ViewBag.Title = "Create";
+}
+<h2>Create New Module</h2>
+<hr />
+<div class="col-lg-12">
+    <input type="button" value="View All Modules" class="btn btn-info" onclick="location.href='@Url.Action("ViewAll", "Modules")'" />
+</div>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+       
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.ModuleId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ModuleId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ModuleId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                                        
+                 @Html.DropDownListFor(model=> model.Year, ViewData["Years"] as SelectList, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+                
+         </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.semester, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.semester, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.semester, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LecturerIncharge, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.LecturerIncharge, new SelectList(ViewBag.Lecturers, "Name", "Name"),
+              "N/A", new { @class = "form-control" })
+          
+                @Html.ValidationMessageFor(model => model.LecturerIncharge, "", new { @class = "text-danger" })
+      
+         </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MaxCount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MaxCount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MaxCount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+             <div class="form-group">
+            <div class="col-md-offset-4 col-md-10">
+                <input type="submit" value="Create" class="btn btn-primary btn-mdt" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @*<div>
+        @Html.ActionLink("View all in Details", "ViewAll")
+    </div>*@
+   
+</div>

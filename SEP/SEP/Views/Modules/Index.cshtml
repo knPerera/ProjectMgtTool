@@ -1,0 +1,32 @@
+﻿@model IEnumerable<SEP.Models.Module>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+@Styles.Render("~/content/bootstrapcss")
+<h1>Modules</h1>
+
+    <table class="table">
+        <tr></tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+
+                    <h4>     @Html.ActionLink(item.Description, "Description", new { id = item.ModuleId }) </h4>
+
+                </td>
+
+            </tr>
+        }
+
+    </table>
+
+    @Html.ActionLink("View Details", "ViewAll", "Modules")
+
+
+

@@ -1,0 +1,70 @@
+﻿@model IEnumerable<SEP.Models.AllocatedLecturers>
+<script src="~/Scripts/jquery-ui-1.10.4.custom.min.js"></script>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<link href="~/Content/jquery-ui-1.10.4.custom.min.css" rel="stylesheet" />
+
+
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/datatable.min.js"></script>
+<link href="~/Content/datatable.min.css" rel="stylesheet" />
+<script type="text/javascript">
+    $(function(){
+        $("#txtSearch").autocomplete({
+            source : '@Url.Action("GetStudents")'
+        });
+    });
+</script>
+
+<h2>Allocated Lecturers</h2>
+<hr />
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+<p>
+    <a href="~/Groups/Index" class="btn btn-info btn-sm">
+        <span class="glyphicon glyphicon-arrow-left"></span> Back
+    </a>
+    <a class="btn btn-primary btn-sm" href="~/AllocatedLecturers/Create" role="button">Create a Lecture panel</a>
+
+</p>
+
+<p>
+    @using (Html.BeginForm("index", "AllocatedLecturers", FormMethod.Get))
+    {
+        <b style="color:darkgreen">Search By</b> <br />
+        <b>Allocated Supervisors</b>
+        @Html.TextBox("Search",null,new{id="txtSearch"})
+         <input type="submit" value="Search" />
+    }
+</p>
+
+<table class="table" id="example" class="display" cellspacing="0" width="100%">
+    <tr>
+       
+        <th>
+            @Html.DisplayNameFor(model => model.Lecturers)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.Lecturers)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+        </td>
+    </tr>
+}
+
+</table>
+
+<script type="text/javascript">
+    $('#example')
+        .removeClass('display')
+        .addClass('table table-striped table-bordered');
+</script>
