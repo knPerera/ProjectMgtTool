@@ -9,9 +9,18 @@ namespace SEP.Models
     public class Module
     {
         [Key]
+
+        [Required(ErrorMessage = "* Module Code is required")]
+        [Display(Name = "Module Code")]
         public string ModuleId { get; set; }
+        [Display(Name = "Module Name")]
         public string Description { get; set; }
+        [Display(Name = "Max Students")]
         public int MaxCount { get; set; }
         public DateTime DeadLine { get; set; }
+        public int Year { get; set; }
+        public int semester { get; set; }
+        [Display(Name = "Lecturer Incharge")]
+        public String LecturerIncharge { get; set; }
     }
 }

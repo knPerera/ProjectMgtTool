@@ -16,7 +16,6 @@ namespace SEP.Models
         public double CGPA { get; set; }
         public string Avatar { get; set; }
         public string CV { get; set; }
-        public string Password { get; set; }
-
+       
     }
 }

@@ -21,11 +21,20 @@ namespace SEP
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
+                      "~/Scripts/respond.js",
+                      "~/Scripts/kav_loadstu.js",
+                      "~/Scripts/Reg.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css", 
+                      "~/Content/lineicons/style.css",
+                      "~/Content/gritter/css/jquery.gritter.css",
+                      "~/Content/PagedList.css",
+                      "~/Content/css/style.css",
+                      "~/Content/sweetalert/sweet-alert.css",
+                      "~/Content/css/style-responsive.css",
+                      "~/Content/font-awesome/css/font-awesome.css"));
         }
     }
 }

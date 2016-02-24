@@ -1,0 +1,52 @@
+﻿body {
+    
+}
+
+#imgBox {
+    border:solid 1px black;
+    background-image:url(/Content/ImagesK/wallpaper6.png);
+    
+}
+#kkkk {
+     border-radius: 50%;
+}
+#proName {
+    background-image:url(/Content/ImagesK/wallpaper6.png);
+    height:auto;
+    padding:10px; 
+    margin-bottom:10px;
+    color:white;
+    font-style:normal;
+    font-size:large;
+}
+#detailsTbl{
+    border:1px solid #c2c2a3;
+    
+}
+
+#linkOnList {
+    text-decoration: none;
+}
+
+#linkOnList:hover { 
+    color: darkblue;
+}
+
+#addGrp {
+    border: dotted 1px black;
+    height: 106px;
+    width: 100px;
+    text-align: center;
+    color: white;
+    background-color: #0f0f3e;
+    visibility :hidden;
+}
+#creategrp {
+    border: dotted 1px black;
+    height: 106px;
+    width: 100px;
+    text-align: center;
+    color: white;
+    background-color: #0f0f3e;
+
+}
