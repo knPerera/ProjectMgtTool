@@ -19,7 +19,10 @@ namespace SEP.Controllers
     public class CalendarController : Controller
     {
         private DB2 db = new DB2();
-
+        /// <summary>
+        /// set the values for design view of the calendar 
+        /// </summary>
+        /// <returns>view of the calendar</returns>
         public ActionResult Index()
         {
 
@@ -30,7 +33,6 @@ namespace SEP.Controllers
             //Being initialized in that way, scheduler will use CalendarController.Data as a the datasource and CalendarController.Save to process changes
             var scheduler = new DHXScheduler(this);
             scheduler.Skin = DHXScheduler.Skins.Flat;
-
             scheduler.InitialDate = new DateTime();
             scheduler.Config.multi_day = true;
             scheduler.LoadData = true;
@@ -38,22 +40,10 @@ namespace SEP.Controllers
 
             return View(scheduler);
         }
-
-        public Lecturer GetStudentData()
-        {
-            string studentId = ((string)Session["id"]);
-            Group supervisorName = (from Y in db.StudentGroupeLists
-                          join B in db.Groups on Y.GroupNo equals B.GroupID
-                          where (Y.StuId == studentId)
-                          select B).FirstOrDefault<Group>();
-
-            Lecturer lecturerId = (from m in db.Lecturers
-                          where m.Name == supervisorName.Supervisor
-                          select m).FirstOrDefault<Lecturer>();
-            return lecturerId;
-
-        }
-    
+   /// <summary>
+   /// get database data accrding to the position
+   /// </summary>
+   /// <returns>details to the calander view according to the position of the user</returns>
         public ContentResult Data()
         {
             if ((string)Session["Position"] == "student")
@@ -79,7 +69,12 @@ namespace SEP.Controllers
 
             }
         }
-
+        /// <summary>
+        /// save the data from the calendar view
+        /// </summary>
+        /// <param name="id">event id</param>
+        /// <param name="actionValues"></param>
+        /// <returns></returns>
         public ContentResult Save(int? id, FormCollection actionValues)
         {
             var action = new DataAction(actionValues);
@@ -167,6 +162,24 @@ namespace SEP.Controllers
                 action.Type = DataActionTypes.Error;
             }
             return (ContentResult)new AjaxSaveResponse(action);
+        }
+        /// <summary>
+        /// get lecturer details according to the position of the user
+        /// </summary>
+        /// <returns>Lecturer ID</returns>
+        public Lecturer GetStudentData()
+        {
+            string studentId = ((string)Session["id"]);
+            Group supervisorName = (from Y in db.StudentGroupeLists
+                                    join B in db.Groups on Y.GroupNo equals B.GroupID
+                                    where (Y.StuId == studentId)
+                                    select B).FirstOrDefault<Group>();
+
+            Lecturer lecturerId = (from m in db.Lecturers
+                                   where m.Name == supervisorName.Supervisor
+                                   select m).FirstOrDefault<Lecturer>();
+            return lecturerId;
+
         }
     }
 }

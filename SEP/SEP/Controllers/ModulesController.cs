@@ -97,7 +97,7 @@ namespace SEP.Controllers
             return View(module);
         }
         /// <summary>
-        /// 
+        /// get values neede for creating a new module
         /// </summary>
         /// <returns></returns>
         // GET: Modules/Create
@@ -202,8 +202,8 @@ namespace SEP.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">MduleCode</param>
+        /// <returns>View of the module details according to the param</returns>
         public ActionResult AssignLecIC(string id)
         {
             if (id == null)
@@ -220,9 +220,9 @@ namespace SEP.Controllers
             return View(module);
         }
         /// <summary>
-        /// 
+        /// Assign LecturerIncharge for a module
         /// </summary>
-        /// <param name="module"></param>
+        /// <param name="module">moduleCode</param>
         /// <returns></returns>
         // POST: Modules/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -253,10 +253,10 @@ namespace SEP.Controllers
             }
         }
         /// <summary>
-        /// 
+        /// get the values
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">module code</param>
+        /// <returns>details of the module according to the param</returns>
         // GET: Modules/Delete/5
         public ActionResult Delete(string id)
         {
@@ -272,10 +272,10 @@ namespace SEP.Controllers
             return View(module);
         }
         /// <summary>
-        /// 
+        /// delete the module
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">mduleCode</param>
+        /// <returns>delete the module according to the param</returns>
         // POST: Modules/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
