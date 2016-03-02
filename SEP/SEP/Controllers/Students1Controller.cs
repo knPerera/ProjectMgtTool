@@ -19,11 +19,29 @@ namespace SEP.Controllers
     public class Students1Controller : Controller
     {
         private DB2 db = new DB2();
+
+        [HttpGet]
         public ActionResult Index(string searchterm = null, int page = 1) {
             var model = (from r in db.Students
                          orderby r.Name ascending
                          where (r.Name.StartsWith(searchterm) || searchterm == null)
                         select r).ToPagedList(page ,3);
+
+            string position = (string)Session["UserName"];
+
+            bool p = db.Modules.Any(ac => ac.LecturerIncharge.Equals(position));
+            if (p)
+            {
+                Session["LecIN"] = true;
+                Debug.Write("Hari Eka");
+            }
+            else
+            {
+                Session["LecIN"] = false;
+                Debug.Write("Wardi Eka");
+            }
+
+
             return View(model);
         }
 

@@ -22,5 +22,14 @@ namespace SEP.Models
         public int semester { get; set; }
         [Display(Name = "Lecturer Incharge")]
         public String LecturerIncharge { get; set; }
+
+        [Display(Name = "Maximum Lec In Panel")]
+        public int MaxLecPanels  { get; set; }
+
+
+        public static implicit operator Module(Group v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -21,11 +21,28 @@ namespace SEP.Controllers
         // GET: Lecturers
         public ActionResult Index(string searchterm = null, int page = 1)
         {
+            string position = (string)Session["UserName"];
+            bool p = db.Modules.Any(ac => ac.LecturerIncharge.Equals(position));
+
+            if (p)
+            {
+                Session["LecIN"] = true;
+                Debug.Write("Hari Eka");
+            }
+            else
+            {
+                Session["LecIN"] = false;
+                Debug.Write("Wardi Eka");
+            }
             var model = (from r in db.Lecturers
                          orderby r.Name ascending
                          where (r.Name.Contains(searchterm) || searchterm == null)
                          select r).ToPagedList(page, 3);
             return View(model);
+
+            
+           
+
         }
 
         // GET: Lecturers/Details/5
