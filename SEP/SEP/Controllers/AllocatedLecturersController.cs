@@ -61,9 +61,7 @@ namespace SEP.Controllers
         public ActionResult Create([Bind(Include = "Supervisors,Lecturers")] AllocatedLecturers allocatedLecturers)
         {
             var vari = allocatedLecturers.Supervisor;
-
-
-
+          
             if (db.AllocatedLecturers.Any(ac => ac.Lecturers.Equals(allocatedLecturers.Lecturers)) && db.AllocatedLecturers.Any(acs=>acs.Supervisors.Equals(allocatedLecturers.Supervisors)))
             
             {

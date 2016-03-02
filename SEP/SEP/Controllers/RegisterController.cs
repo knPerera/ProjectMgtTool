@@ -26,7 +26,7 @@ namespace SEP.Controllers
         }
 
         public ActionResult Login() {
-
+            
             return View();
         }
 
@@ -44,7 +44,7 @@ namespace SEP.Controllers
 
            if (student2 != null && lecture2 == null)
             {
-
+                
                 Session["UserName"] = student2.Name;
                 Session["Email"] = student2.Email;
                // var results = yourString.Split(new string[] { "is Marco and" }, StringSplitOptions.None);
@@ -162,9 +162,7 @@ namespace SEP.Controllers
                 
                 Session.Clear();
                 Session.Abandon();
-               
-
-
+              
                 return RedirectToActionPermanent("Login","Register");
             }
 
