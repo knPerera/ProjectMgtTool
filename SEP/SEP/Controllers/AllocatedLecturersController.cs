@@ -106,12 +106,11 @@ namespace SEP.Controllers
             var vari = allocatedLecturers.Supervisors;
             
             int table_rows = db.AllocatedLecturers.Count(ac => ac.Supervisors.Equals(allocatedLecturers.Supervisors));
-            int t = db.Modules.Max(ac => ac.MaxCount);
+            int MaxAllocatedLecturers = db.Modules.Max(ac => ac.MaxCount);
 
-            if (t <= table_rows)
+            if (MaxAllocatedLecturers <= table_rows)
             {
                 TempData["max"] = "max";
-                ModelState.AddModelError("Already exists", "Error");
                 return RedirectToAction("fuc", "Groups1");
             }
 
@@ -161,6 +160,10 @@ namespace SEP.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Supervisors = new SelectList(db.Groups, "Supervisor", "Supervisor");
+            ViewBag.Lecturers = new SelectList(db.Lecturers, "Name", "Name");
+
+           
             return View(allocatedLecturers);
         }
 
@@ -177,7 +180,23 @@ namespace SEP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,Supervisors,Lecturers")] AllocatedLecturers allocatedLecturers)
         {
+            int table_rows = db.AllocatedLecturers.Count(ac => ac.Supervisors.Equals(allocatedLecturers.Supervisors));
+            int t = db.Modules.Max(ac => ac.MaxCount);
+
+
+            if (db.AllocatedLecturers.Any(ac => ac.Supervisors.Equals(allocatedLecturers.Supervisors))
+                && db.AllocatedLecturers.Any(acd=>acd.Lecturers.Equals(allocatedLecturers.Lecturers))) {
+
+                TempData["exists"] = "exists";
+                return RedirectToAction("Edit", "Groups1");
+            }
            
+            if (t <= table_rows)
+            {
+                TempData["max"] = "max";
+                return RedirectToAction("fuc", "Groups1");
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(allocatedLecturers).State = EntityState.Modified;

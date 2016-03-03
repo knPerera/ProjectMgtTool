@@ -27,22 +27,16 @@ namespace SEP.Controllers
             if (p)
             {
                 Session["LecIN"] = true;
-                Debug.Write("Hari Eka");
             }
             else
             {
                 Session["LecIN"] = false;
-                Debug.Write("Wardi Eka");
             }
             var model = (from r in db.Lecturers
                          orderby r.Name ascending
                          where (r.Name.Contains(searchterm) || searchterm == null)
                          select r).ToPagedList(page, 3);
             return View(model);
-
-            
-           
-
         }
 
         // GET: Lecturers/Details/5

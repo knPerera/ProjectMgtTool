@@ -8,6 +8,7 @@
     string letnum = (string)TempData["letnum)"];
     string length = (string)TempData["len"];
     string exists = (string)TempData["exist)"];
+    string NoMore = (string)TempData["NoMore"];
 
     if (nullvalue != null) {
         if (nullvalue.Equals("null"))
@@ -35,6 +36,13 @@
         if (exists.Equals("exist"))
         {
             ErrorText = "Already Exists.Please try a new project ID";
+        }
+    }
+    if (NoMore != null)
+    {
+        if (NoMore.Equals("NoMore"))
+        {
+            ErrorText = "Your have already added a supervisor for this projectID";
         }
     }
 }

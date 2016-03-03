@@ -20,15 +20,13 @@ namespace SEP.Controllers
         {
             string position =(string) Session["UserName"];
             
-           bool p = db.Modules.Any(ac => ac.LecturerIncharge.Equals(position));
-            if (p) {
+           bool checkLecture = db.Modules.Any(ac => ac.LecturerIncharge.Equals(position));
+            if (checkLecture) {
                 Session["LecIN"] = true;
-                Debug.Write("Hari Eka");
             }
             else
             {
                 Session["LecIN"] = false;
-                Debug.Write("Wardi Eka");
             }
             return View(db.Groups);
         }
@@ -43,6 +41,12 @@ namespace SEP.Controllers
         {
            return View(db.Groups.Where(x => x.ProjectID.StartsWith(Search) || x.ProjectID==Search).ToList());   
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET: Groups/Details/5
         public ActionResult Details(string id)
         {
@@ -78,7 +82,6 @@ namespace SEP.Controllers
         
         // POST: Groups/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "GroupID,ProjectID,Supervisor")] Group group)
@@ -106,7 +109,12 @@ namespace SEP.Controllers
                 return RedirectToAction("Index", "Groups1");
 
             }
-           
+            if (db.Groups.Any(acd => acd.ProjectID.Equals(group.ProjectID)))
+            {
+                TempData["NoMore)"] = "NoMore";
+                return RedirectToAction("Index", "Groups1");
+
+            }
             if (ModelState.IsValid)
                 {
                     db.Groups.Add(group);
@@ -154,7 +162,10 @@ namespace SEP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "GroupID,ProjectID,Supervisor")] Group group)
         {
-
+            if(db.Groups.Any(ac=>ac.ProjectID.Equals(group.ProjectID)) && db.Groups.Any(acd => acd.Supervisor.Equals(group.Supervisor))){
+                TempData["exist)"] = "exist";
+                return RedirectToAction("Index", "Groups1");
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(group).State = EntityState.Modified;

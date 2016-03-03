@@ -20,26 +20,31 @@ namespace SEP.Controllers
     {
         private DB2 db = new DB2();
 
-        [HttpGet]
-        public ActionResult Index(string searchterm = null, int page = 1) {
-            var model = (from r in db.Students
-                         orderby r.Name ascending
-                         where (r.Name.StartsWith(searchterm) || searchterm == null)
-                        select r).ToPagedList(page ,3);
 
+        /// <summary>
+        /// Check weather the user is lecture in charge or not.
+        /// </summary>
+        /// <param name="searchterm">Student Name</param>
+        /// <param name="page">Page Number</param>
+        /// <returns>value that return from the query.</returns>
+        public ActionResult Index(string searchterm = null, int page = 1) {
             string position = (string)Session["UserName"];
 
             bool p = db.Modules.Any(ac => ac.LecturerIncharge.Equals(position));
             if (p)
             {
                 Session["LecIN"] = true;
-                Debug.Write("Hari Eka");
             }
             else
             {
                 Session["LecIN"] = false;
-                Debug.Write("Wardi Eka");
             }
+            var model = (from r in db.Students
+                         orderby r.Name ascending
+                         where (r.Name.StartsWith(searchterm) || searchterm == null)
+                        select r).ToPagedList(page ,3);
+
+           
 
 
             return View(model);
