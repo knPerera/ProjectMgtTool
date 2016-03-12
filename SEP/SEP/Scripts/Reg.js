@@ -146,7 +146,7 @@ $(document).ready(function () {
             }
 
         });
-
+        // load....
         $.ajax({
             url: '/Dropdwn/NotLec',
             data: "",

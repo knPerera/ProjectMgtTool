@@ -60,6 +60,14 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -192,9 +200,11 @@
     <Compile Include="Controllers\ClientsController.cs" />
     <Compile Include="Controllers\DropdwnController.cs" />
     <Compile Include="Controllers\Groups1Controller.cs" />
+    <Compile Include="Controllers\Groups2Controller.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LecModController.cs" />
+    <Compile Include="Controllers\LecturePanelController.cs" />
     <Compile Include="Controllers\LecturersController.cs" />
     <Compile Include="Controllers\MailController.cs" />
     <Compile Include="Controllers\ModulesController.cs" />
@@ -232,8 +242,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Calendar.aspx" />
+    <Content Include="Content\bootrastrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\box-shadow.css" />
     <Content Include="Content\css1\form-elements.css" />
     <Content Include="Content\css1\style.css" />
     <Content Include="Content\css\bootstrap.css" />
@@ -476,6 +488,11 @@
     <Content Include="Views\AllocatedLecturers\Edit.cshtml" />
     <Content Include="Views\AllocatedLecturers\Index.cshtml" />
     <Content Include="Views\Calendar\Index.cshtml" />
+    <Content Include="Views\LecturePanel\Create.cshtml" />
+    <Content Include="Views\LecturePanel\Delete.cshtml" />
+    <Content Include="Views\LecturePanel\Details.cshtml" />
+    <Content Include="Views\LecturePanel\Edit.cshtml" />
+    <Content Include="Views\LecturePanel\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

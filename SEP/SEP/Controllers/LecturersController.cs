@@ -21,6 +21,17 @@ namespace SEP.Controllers
         // GET: Lecturers
         public ActionResult Index(string searchterm = null, int page = 1)
         {
+            string position = (string)Session["UserName"];
+            bool p = db.Modules.Any(ac => ac.LecturerIncharge.Equals(position));
+
+            if (p)
+            {
+                Session["LecIN"] = true;
+            }
+            else
+            {
+                Session["LecIN"] = false;
+            }
             var model = (from r in db.Lecturers
                          orderby r.Name ascending
                          where (r.Name.Contains(searchterm) || searchterm == null)

@@ -29,6 +29,9 @@ namespace SEP.Models
         [Required(ErrorMessage = "The Avatar Is A Require Field")]
         public string Avatar { get; set; }
 
-
+        public static implicit operator Lecturer(AllocatedLecturers v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
