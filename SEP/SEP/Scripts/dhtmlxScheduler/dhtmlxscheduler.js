@@ -183,19 +183,85 @@ i+="set[3]=temp["+a+"]||0;";break;case"%i":i+="set[4]=temp["+a+"]||0;";break;cas
 
 return scheduler.date._bind_host_object(r)},getISOWeek:function(e){if(!e)return!1;var t=e.getDay();0===t&&(t=7);var i=new Date(e.valueOf());i.setDate(e.getDate()+(4-t));var s=i.getFullYear(),a=Math.round((i.getTime()-new Date(s,0,1).getTime())/864e5),n=1+Math.floor(a/7);return n},getUTCISOWeek:function(e){return this.getISOWeek(this.convert_to_utc(e))},convert_to_utc:function(e){return new Date(e.getUTCFullYear(),e.getUTCMonth(),e.getUTCDate(),e.getUTCHours(),e.getUTCMinutes(),e.getUTCSeconds())}
 },scheduler.locale={date:{month_full:["January","February","March","April","May","June","July","August","September","October","November","December"],month_short:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],day_full:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],day_short:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]},labels:{dhx_cal_today_button:"Today",day_tab:"Day",week_tab:"Week",month_tab:"Month",new_event:"New event",icon_save:"Save",icon_cancel:"Cancel",
-icon_details:"Details",icon_edit:"Edit",icon_delete:"Delete",confirm_closing:"",confirm_deleting:"Event will be deleted permanently, are you sure?",section_description:"Description",section_time:"Time period",full_day:"Full day",confirm_recurring:"Do you want to edit the whole set of repeated events?",section_recurring:"Repeat event",button_recurring:"Disabled",button_recurring_open:"Enabled",button_edit_series:"Edit series",button_edit_occurrence:"Edit occurrence",agenda_tab:"Agenda",date:"Date",
-description:"Description",year_tab:"Year",week_agenda_tab:"Agenda",grid_tab:"Grid",drag_to_create:"Drag to create",drag_to_move:"Drag to move",message_ok:"OK",message_cancel:"Cancel"}},scheduler.config={default_date:"%j %M %Y",month_date:"%F %Y",load_date:"%Y-%m-%d",week_date:"%l",day_date:"%D, %F %j",hour_date:"%H:%i",month_day:"%d",xml_date:"%m/%d/%Y %H:%i",api_date:"%d-%m-%Y %H:%i",preserve_length:!0,time_step:5,start_on_monday:1,first_hour:0,last_hour:24,readonly:!1,drag_resize:1,drag_move:1,
-drag_create:1,dblclick_create:1,edit_on_create:1,details_on_create:0,resize_month_events:!1,resize_month_timed:!1,cascade_event_display:!1,cascade_event_count:4,cascade_event_margin:30,multi_day:!0,multi_day_height_limit:0,drag_lightbox:!0,preserve_scroll:!0,select:!0,server_utc:!1,touch:!0,touch_tip:!0,touch_drag:500,quick_info_detached:!0,positive_closing:!1,drag_highlight:!0,limit_drag_out:!1,icons_edit:["icon_save","icon_cancel"],icons_select:["icon_details","icon_edit","icon_delete"],buttons_left:["dhx_save_btn","dhx_cancel_btn"],
-buttons_right:["dhx_delete_btn"],lightbox:{sections:[{name:"description",height:200,map_to:"text",type:"textarea",focus:!0},{name:"time",height:72,type:"time",map_to:"auto"}]},highlight_displayed_event:!0,left_border:!1,ajax_error:"alert",delay_render:0,timeline_swap_resize:!1},scheduler.templates={},scheduler.init_templates=function(){var e=scheduler.locale.labels;e.dhx_save_btn=e.icon_save,e.dhx_cancel_btn=e.icon_cancel,e.dhx_delete_btn=e.icon_delete;var t=scheduler.date.date_to_str,i=scheduler.config,s=function(e,t){
-for(var i in t)e[i]||(e[i]=t[i])};s(scheduler.templates,{day_date:t(i.default_date),month_date:t(i.month_date),week_date:function(e,t){return scheduler.templates.day_date(e)+" &ndash; "+scheduler.templates.day_date(scheduler.date.add(t,-1,"day"))},day_scale_date:t(i.default_date),month_scale_date:t(i.week_date),week_scale_date:t(i.day_date),hour_scale:t(i.hour_date),time_picker:t(i.hour_date),event_date:t(i.hour_date),month_day:t(i.month_day),xml_date:scheduler.date.str_to_date(i.xml_date,i.server_utc),
-load_format:t(i.load_date,i.server_utc),xml_format:t(i.xml_date,i.server_utc),api_date:scheduler.date.str_to_date(i.api_date),event_header:function(e,t,i){return scheduler.templates.event_date(e)+" - "+scheduler.templates.event_date(t)},event_text:function(e,t,i){return i.text},event_class:function(e,t,i){return""},month_date_class:function(e){return""},week_date_class:function(e){return""},event_bar_date:function(e,t,i){return scheduler.templates.event_date(e)+" "},event_bar_text:function(e,t,i){
-return i.text},month_events_link:function(e,t){return"<a>View more("+t+" events)</a>"},drag_marker_class:function(e,t,i){return""},drag_marker_content:function(e,t,i){return""}}),this.callEvent("onTemplatesReady",[])},scheduler.uid=function(){return this._seed||(this._seed=(new Date).valueOf()),this._seed++},scheduler._events={},scheduler.clearAll=function(){this._events={},this._loaded={},this._edit_id=null,this._select_id=null,this._drag_id=null,this._drag_mode=null,this._drag_pos=null,this.clear_view(),
-this.callEvent("onClearAll",[])},scheduler.addEvent=function(e,t,i,s,a){if(!arguments.length)return this.addEventNow();var n=e;1!=arguments.length&&(n=a||{},n.start_date=e,n.end_date=t,n.text=i,n.id=s),n.id=n.id||scheduler.uid(),n.text=n.text||"","string"==typeof n.start_date&&(n.start_date=this.templates.api_date(n.start_date)),"string"==typeof n.end_date&&(n.end_date=this.templates.api_date(n.end_date));var r=6e4*(this.config.event_duration||this.config.time_step);n.start_date.valueOf()==n.end_date.valueOf()&&n.end_date.setTime(n.end_date.valueOf()+r),
-n._timed=this.isOneDayEvent(n);var d=!this._events[n.id];return this._events[n.id]=n,this.event_updated(n),this._loading||this.callEvent(d?"onEventAdded":"onEventChanged",[n.id,n]),n.id},scheduler.deleteEvent=function(e,t){var i=this._events[e];(t||this.callEvent("onBeforeEventDelete",[e,i])&&this.callEvent("onConfirmedBeforeEventDelete",[e,i]))&&(i&&(this._select_id=null,delete this._events[e],this.event_updated(i)),this.callEvent("onEventDeleted",[e,i]))},scheduler.getEvent=function(e){return this._events[e];
+    icon_details: "Details",
+    icon_edit: "Edit",
+    icon_delete: "Delete",
+    confirm_closing: "",
+    confirm_deleting: "Event will be deleted permanently, are you sure?",
+    section_description: "Description",
+    section_time: "Time period",
+    full_day: "Full day",
+    confirm_recurring: "Do you want to edit the whole set of repeated events?",
+    section_recurring: "Repeat event",
+    button_recurring: "Disabled",
+    button_recurring_open: "Enabled",
+    button_edit_series: "Edit series",
+    button_edit_occurrence: "Edit occurrence",
+    agenda_tab: "Agenda",
+    date: "Date",
+    description: "Description",
+    year_tab: "Year", week_agenda_tab: "Agenda", grid_tab: "Grid", drag_to_create: "Drag to create", drag_to_move: "Drag to move", message_ok: "OK", message_cancel: "Cancel"
+}
+}, scheduler.config = {
+    default_date: "%j %M %Y", month_date: "%F %Y", load_date: "%Y-%m-%d", week_date: "%l", day_date: "%D, %F %j", hour_date: "%H:%i", month_day: "%d", xml_date: "%m/%d/%Y %H:%i", api_date: "%d-%m-%Y %H:%i", preserve_length: !0, time_step: 5, start_on_monday: 1, first_hour: 0, last_hour: 24, readonly: !1, drag_resize: 1, drag_move: 1,
+    drag_create: 1,
+    dblclick_create: 1,
+    edit_on_create: 1,
+    details_on_create: 0,
+    resize_month_events: !1,
+    resize_month_timed: !1, 
+    cascade_event_display: !1,
+    cascade_event_count: 4, 
+    cascade_event_margin: 30, multi_day: !0, multi_day_height_limit: 0, drag_lightbox: !0, preserve_scroll: !0, select: !0, server_utc: !1, touch: !0, touch_tip: !0, touch_drag: 500, quick_info_detached: !0, positive_closing: !1, drag_highlight: !0, limit_drag_out: !1, icons_edit: ["icon_save", "icon_cancel"], icons_select: ["icon_details", "icon_edit", "icon_delete"], buttons_left: ["dhx_save_btn", "dhx_cancel_btn"]
+    ,buttons_right: ["dhx_delete_btn"],
+    lightbox: {
+        sections: [{ name: "description", height: 200, map_to: "text", type: "textarea", focus: !0 },
+            { name: "time", height: 72, type: "time", map_to: "auto" }]
+    },
+    highlight_displayed_event: !0, left_border: !1, ajax_error: "alert", delay_render: 0, timeline_swap_resize: !1
+}, scheduler.templates = {}, scheduler.init_templates = function () {
+    var e = scheduler.locale.labels;
+    e.dhx_save_btn = e.icon_save,
+    e.dhx_cancel_btn = e.icon_cancel,
+    e.dhx_delete_btn = e.icon_delete;
+    var t = scheduler.date.date_to_str,
+    i = scheduler.config, s = function (e, t) {
+        for (var i in t) e[i] || (e[i] = t[i])
+    };
+    s(scheduler.templates, {
+        day_date: t(i.default_date),
+        month_date: t(i.month_date),
+        week_date: function (e, t) { return scheduler.templates.day_date(e) + " &ndash; " + scheduler.templates.day_date(scheduler.date.add(t, -1, "day")) }, day_scale_date: t(i.default_date), month_scale_date: t(i.week_date), week_scale_date: t(i.day_date), hour_scale: t(i.hour_date), time_picker: t(i.hour_date), event_date: t(i.hour_date), month_day: t(i.month_day), xml_date: scheduler.date.str_to_date(i.xml_date, i.server_utc),
+        load_format: t(i.load_date, i.server_utc),
+        xml_format: t(i.xml_date, i.server_utc),
+        api_date: scheduler.date.str_to_date(i.api_date),
+        event_header: function (e, t, i) { return scheduler.templates.event_date(e) + " - " + scheduler.templates.event_date(t) }, event_text: function (e, t, i) { return i.text }, event_class: function (e, t, i) { return "" }, month_date_class: function (e) { return "" }, week_date_class: function (e) { return "" }, event_bar_date: function (e, t, i) { return scheduler.templates.event_date(e) + " " }, event_bar_text: function (e, t, i) {
+            return i.text
+        },
+        month_events_link: function (e, t) { return "<a>View more(" + t + " events)</a>" }, drag_marker_class: function (e, t, i) { return "" }, drag_marker_content: function (e, t, i) { return "" }
+    }), this.callEvent("onTemplatesReady", [])
+}, scheduler.uid = function () { return this._seed || (this._seed = (new Date).valueOf()), this._seed++ }, scheduler._events = {}, scheduler.clearAll = function () {
+    this._events = {}, this._loaded = {},
+    this._edit_id = null, this._select_id = null,
+    this._drag_id = null, this._drag_mode = null,
+    this._drag_pos = null, this.clear_view(),
+this.callEvent("onClearAll", [])
+}, scheduler.addEvent = function (e, t, i, s, a) {
+    if (!arguments.length) return this.addEventNow();
+    var n = e; 1 != arguments.length && (n = a || {}, n.start_date = e, n.end_date = t, n.text = i, n.id = s), n.id = n.id || scheduler.uid(), n.text = n.text || "", "string" == typeof n.start_date && (n.start_date = this.templates.api_date(n.start_date)), "string" == typeof n.end_date && (n.end_date = this.templates.api_date(n.end_date)); var r = 6e4 * (this.config.event_duration || this.config.time_step); n.start_date.valueOf() == n.end_date.valueOf() && n.end_date.setTime(n.end_date.valueOf() + r),
+n._timed = this.isOneDayEvent(n);
+    var d = !this._events[n.id];
+    return this._events[n.id] = n, this.event_updated(n), this._loading || this.callEvent(d ? "onEventAdded" : "onEventChanged", [n.id, n]), n.id
+}, scheduler.deleteEvent = function (e, t) { var i = this._events[e]; (t || this.callEvent("onBeforeEventDelete", [e, i]) && this.callEvent("onConfirmedBeforeEventDelete", [e, i])) && (i && (this._select_id = null, delete this._events[e], this.event_updated(i)), this.callEvent("onEventDeleted", [e, i])) }, scheduler.getEvent = function (e) {
+    return this._events[e];
 
-},scheduler.setEvent=function(e,t){t.id||(t.id=e),this._events[e]=t},scheduler.for_rendered=function(e,t){for(var i=this._rendered.length-1;i>=0;i--)this._rendered[i].getAttribute("event_id")==e&&t(this._rendered[i],i)},scheduler.changeEventId=function(e,t){if(e!=t){var i=this._events[e];i&&(i.id=t,this._events[t]=i,delete this._events[e]),this.for_rendered(e,function(e){e.setAttribute("event_id",t)}),this._select_id==e&&(this._select_id=t),this._edit_id==e&&(this._edit_id=t),this.callEvent("onEventIdChange",[e,t]);
+}, scheduler.setEvent = function (e, t) { t.id || (t.id = e), this._events[e] = t },
+    scheduler.for_rendered = function (e, t) { for (var i = this._rendered.length - 1; i >= 0; i--) this._rendered[i].getAttribute("event_id") == e && t(this._rendered[i], i) }, scheduler.changeEventId = function (e, t) {
+        if (e != t) {
+            var i = this._events[e]; i && (i.id = t, this._events[t] = i, delete this._events[e]), this.for_rendered(e, function (e) { e.setAttribute("event_id", t) }), this._select_id == e && (this._select_id = t), this._edit_id == e && (this._edit_id = t), this.callEvent("onEventIdChange", [e, t]);
 
-}},function(){for(var e=["text","Text","start_date","StartDate","end_date","EndDate"],t=function(e){return function(t){return scheduler.getEvent(t)[e]}},i=function(e){return function(t,i){var s=scheduler.getEvent(t);s[e]=i,s._changed=!0,s._timed=this.isOneDayEvent(s),scheduler.event_updated(s,!0)}},s=0;s<e.length;s+=2)scheduler["getEvent"+e[s+1]]=t(e[s]),scheduler["setEvent"+e[s+1]]=i(e[s])}(),scheduler.event_updated=function(e,t){this.is_visible_events(e)?this.render_view_data():this.clear_event(e.id);
+}},function(){for(var e=["text","Text","start_date","StartDate","end_date","EndDate"],
+    t=function(e){return function(t){return scheduler.getEvent(t)[e]}},i=function(e){return function(t,i){var s=scheduler.getEvent(t);s[e]=i,s._changed=!0,s._timed=this.isOneDayEvent(s),scheduler.event_updated(s,!0)}},s=0;s<e.length;s+=2)scheduler["getEvent"+e[s+1]]=t(e[s]),scheduler["setEvent"+e[s+1]]=i(e[s])}(),scheduler.event_updated=function(e,t){this.is_visible_events(e)?this.render_view_data():this.clear_event(e.id);
 
 },scheduler.is_visible_events=function(e){var t=e.start_date<this._max_date&&this._min_date<e.end_date;if(t){var i=e.start_date.getHours(),s=e.end_date.getHours(),a=this.config.last_hour,n=this.config.first_hour,r=this._table_view||!((s>a||n>s)&&(i>a||n>i));if(r)return!0;var d=(e.end_date.valueOf()-e.start_date.valueOf())/36e5,o=24-(this.config.last_hour-this.config.first_hour);return d>o}return!1},scheduler.isOneDayEvent=function(e){var t=e.end_date.getDate()-e.start_date.getDate();return t?(0>t&&(t=Math.ceil((e.end_date.valueOf()-e.start_date.valueOf())/864e5)),
 1==t&&!e.end_date.getHours()&&!e.end_date.getMinutes()&&(e.start_date.getHours()||e.start_date.getMinutes())):e.start_date.getMonth()==e.end_date.getMonth()&&e.start_date.getFullYear()==e.end_date.getFullYear()},scheduler.get_visible_events=function(e){var t=[];for(var i in this._events)this.is_visible_events(this._events[i])&&(!e||this._events[i]._timed)&&this.filter_event(i,this._events[i])&&t.push(this._events[i]);return t},scheduler.filter_event=function(e,t){var i=this["filter_"+this._mode];
@@ -280,15 +346,64 @@ scheduler.config.wide_form||(h=e.previousSibling.innerHTML+h),e.previousSibling.
 t.end_date=new Date(s[a[3]+4].value,s[a[2]+4].value,s[a[1]+4].value,0,s[a[0]+4].value),!s[a[3]].value||!s[a[3]+4].value){var n=this.getEvent(this._lightbox_id);n&&(t.start_date=n.start_date,t.end_date=n.end_date)}return t.end_date<=t.start_date&&(t.end_date=scheduler.date.add(t.start_date,scheduler.config.time_step,"minute")),{start_date:new Date(t.start_date),end_date:new Date(t.end_date)}},focus:function(e){scheduler._focus(e.getElementsByTagName("select")[0])}}},scheduler.showCover=function(e){
 if(e){e.style.display="block";var t=window.pageYOffset||document.body.scrollTop||document.documentElement.scrollTop,i=window.pageXOffset||document.body.scrollLeft||document.documentElement.scrollLeft,s=window.innerHeight||document.documentElement.clientHeight;e.style.top=t?Math.round(t+Math.max((s-e.offsetHeight)/2,0))+"px":Math.round(Math.max((s-e.offsetHeight)/2,0)+9)+"px",e.style.left=document.documentElement.scrollWidth>document.body.offsetWidth?Math.round(i+(document.body.offsetWidth-e.offsetWidth)/2)+"px":Math.round((document.body.offsetWidth-e.offsetWidth)/2)+"px";
 
-}this.show_cover()},scheduler.showLightbox=function(e){if(e){if(!this.callEvent("onBeforeLightbox",[e]))return void(this._new_event&&(this._new_event=null));var t=this.getLightbox();this.showCover(t),this._fill_lightbox(e,t),this.callEvent("onLightbox",[e])}},scheduler._fill_lightbox=function(e,t){var i=this.getEvent(e),s=t.getElementsByTagName("span");scheduler.templates.lightbox_header?(s[1].innerHTML="",s[2].innerHTML=scheduler.templates.lightbox_header(i.start_date,i.end_date,i)):(s[1].innerHTML=this.templates.event_header(i.start_date,i.end_date,i),
-s[2].innerHTML=(this.templates.event_bar_text(i.start_date,i.end_date,i)||"").substr(0,70));for(var a=this.config.lightbox.sections,n=0;n<a.length;n++){var r=a[n],d=document.getElementById(r.id).nextSibling,o=this.form_blocks[r.type],l=void 0!==i[r.map_to]?i[r.map_to]:r.default_value;o.set_value.call(this,d,l,i,r),a[n].focus&&o.focus.call(this,d)}scheduler._lightbox_id=e},scheduler._lightbox_out=function(e){for(var t=this.config.lightbox.sections,i=0;i<t.length;i++){var s=document.getElementById(t[i].id);
+} this.show_cover()
+},
+    scheduler.showLightbox = function (e) {
+        if (e) {
+            if (!this.callEvent("onBeforeLightbox", [e]))
+                return void (this._new_event && (this._new_event = null));
+            var t = this.getLightbox(); this.showCover(t),
+            this._fill_lightbox(e, t),
+            this.callEvent("onLightbox", [e])
+        }
+    }, scheduler._fill_lightbox = function (e, t) {
+        var i = this.getEvent(e),
+            s = t.getElementsByTagName("span");
+        scheduler.templates.lightbox_header ? (s[1].innerHTML = "",
+        s[2].innerHTML = scheduler.templates.lightbox_header(i.start_date, i.end_date, i)) : (s[1].innerHTML = this.templates.event_header(i.start_date, i.end_date, i),
+s[2].innerHTML = (this.templates.event_bar_text(i.start_date, i.end_date, i) || "").substr(0, 70));
+        for (var a = this.config.lightbox.sections, n = 0; n < a.length; n++) {
+            var r = a[n], d = document.getElementById(r.id).nextSibling, o = this.form_blocks[r.type],
+                l = void 0 !== i[r.map_to] ? i[r.map_to] : r.default_value;
+            o.set_value.call(this, d, l, i, r),
+            a[n].focus && o.focus.call(this, d)
+        } scheduler._lightbox_id = e
+    }, scheduler._lightbox_out = function (e) {
+        for (var t = this.config.lightbox.sections, i = 0; i < t.length; i++) {
+            var s = document.getElementById(t[i].id);
 
 s=s?s.nextSibling:s;var a=this.form_blocks[t[i].type],n=a.get_value.call(this,s,e,t[i]);"auto"!=t[i].map_to&&(e[t[i].map_to]=n)}return e},scheduler._empty_lightbox=function(e){{var t=scheduler._lightbox_id,i=this.getEvent(t);this.getLightbox()}this._lame_copy(i,e),this.setEvent(i.id,i),this._edit_stop_event(i,!0),this.render_view_data()},scheduler.hide_lightbox=function(e){this.hideCover(this.getLightbox()),this._lightbox_id=null,this.callEvent("onAfterLightbox",[])},scheduler.hideCover=function(e){
 e&&(e.style.display="none"),this.hide_cover()},scheduler.hide_cover=function(){this._cover&&this._cover.parentNode.removeChild(this._cover),this._cover=null},scheduler.show_cover=function(){if(!this._cover){this._cover=document.createElement("DIV"),this._cover.className="dhx_cal_cover";var e=void 0!==document.height?document.height:document.body.offsetHeight,t=document.documentElement?document.documentElement.scrollHeight:0;this._cover.style.height=Math.max(e,t)+"px",document.body.appendChild(this._cover);
 
 }},scheduler.save_lightbox=function(){var e=this._lightbox_out({},this._lame_copy(this.getEvent(this._lightbox_id)));(!this.checkEvent("onEventSave")||this.callEvent("onEventSave",[this._lightbox_id,e,this._new_event]))&&(this._empty_lightbox(e),this.hide_lightbox())},scheduler.startLightbox=function(e,t){this._lightbox_id=e,this._custom_lightbox=!0,this._temp_lightbox=this._lightbox,this._lightbox=t,this.showCover(t)},scheduler.endLightbox=function(e,t){this._edit_stop_event(scheduler.getEvent(this._lightbox_id),e),
 e&&scheduler.render_view_data(),this.hideCover(t),this._custom_lightbox&&(this._lightbox=this._temp_lightbox,this._custom_lightbox=!1),this._temp_lightbox=this._lightbox_id=null},scheduler.resetLightbox=function(){scheduler._lightbox&&!scheduler._custom_lightbox&&scheduler._lightbox.parentNode.removeChild(scheduler._lightbox),scheduler._lightbox=null},scheduler.cancel_lightbox=function(){this.callEvent("onEventCancel",[this._lightbox_id,this._new_event]),this.endLightbox(!1),this.hide_lightbox()},
-scheduler._init_lightbox_events=function(){this.getLightbox().onclick=function(e){var t=e?e.target:event.srcElement;if(t.className||(t=t.previousSibling),t&&t.className)switch(t.className){case"dhx_save_btn":scheduler.save_lightbox();break;case"dhx_delete_btn":var i=scheduler.locale.labels.confirm_deleting;scheduler._dhtmlx_confirm(i,scheduler.locale.labels.title_confirm_deleting,function(){scheduler.deleteEvent(scheduler._lightbox_id),scheduler._new_event=null,scheduler.hide_lightbox()});break;case"dhx_cancel_btn":
+scheduler._init_lightbox_events = function () {
+    this.getLightbox().onclick = function (e) {
+        var t = e ? e.target : event.srcElement; if (t.className || (t = t.previousSibling), t && t.className) switch (t.className) {
+            case "dhx_save_btn":
+             
+                scheduler.save_lightbox();
+                break;
+
+            case "dhx_delete_btn": var i = scheduler.locale.labels.confirm_deleting;
+                scheduler._dhtmlx_confirm(i, scheduler.locale.labels.title_confirm_deleting,
+                
+                function () {
+                    var p = document.getElementById("cal").innerHTML;
+                    if (p == "student") {
+
+                        alert("You don't have permission to delete!");
+                        scheduler.hide_lightbox()
+                    } else {
+                    
+                        scheduler.deleteEvent(scheduler._lightbox_id),
+                        scheduler._new_event = null, scheduler.hide_lightbox()
+                    }
+                   });
+
+                break;
+
+            case "dhx_cancel_btn":
 scheduler.cancel_lightbox();break;default:if(t.getAttribute("dhx_button"))scheduler.callEvent("onLightboxButton",[t.className,t,e]);else{var s,a,n;-1!=t.className.indexOf("dhx_custom_button")&&(-1!=t.className.indexOf("dhx_custom_button_")?(s=t.parentNode.getAttribute("index"),n=t.parentNode.parentNode):(s=t.getAttribute("index"),n=t.parentNode,t=t.firstChild)),s&&(a=scheduler.form_blocks[scheduler.config.lightbox.sections[s].type],a.button_click(s,t,n,n.nextSibling))}}},this.getLightbox().onkeydown=function(e){
 switch((e||event).keyCode){case scheduler.keys.edit_save:if((e||event).shiftKey)return;scheduler.save_lightbox();break;case scheduler.keys.edit_cancel:scheduler.cancel_lightbox()}}},scheduler.setLightboxSize=function(){var e=this._lightbox;if(e){var t=e.childNodes[1];t.style.height="0px",t.style.height=t.scrollHeight+"px",e.style.height=t.scrollHeight+scheduler.xy.lightbox_additional_height+"px",t.style.height=t.scrollHeight+"px"}},scheduler._init_dnd_events=function(){dhtmlxEvent(document.body,"mousemove",scheduler._move_while_dnd),
 dhtmlxEvent(document.body,"mouseup",scheduler._finish_dnd),scheduler._init_dnd_events=function(){}},scheduler._move_while_dnd=function(e){if(scheduler._dnd_start_lb){document.dhx_unselectable||(document.body.className+=" dhx_unselectable",document.dhx_unselectable=!0);var t=scheduler.getLightbox(),i=e&&e.target?[e.pageX,e.pageY]:[event.clientX,event.clientY];t.style.top=scheduler._lb_start[1]+i[1]-scheduler._dnd_start_lb[1]+"px",t.style.left=scheduler._lb_start[0]+i[0]-scheduler._dnd_start_lb[0]+"px";

@@ -195,6 +195,7 @@
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LecModController.cs" />
+    <Compile Include="Controllers\LecturePanelController.cs" />
     <Compile Include="Controllers\LecturersController.cs" />
     <Compile Include="Controllers\MailController.cs" />
     <Compile Include="Controllers\ModulesController.cs" />
@@ -226,6 +227,7 @@
     <Compile Include="Models\LogInModel.cs" />
     <Compile Include="Models\ModLec.cs" />
     <Compile Include="Models\Module.cs" />
+    <Compile Include="Models\ModuleDate.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\SchedulerModel.cs" />
     <Compile Include="Models\Student.cs" />
@@ -637,7 +639,7 @@
     <Content Include="Scripts\js\zabuto_calendar.js" />
     <Content Include="Scripts\kav_loadstu.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\Reg.js" />
+    <Content Include="Scripts\Reg2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
@@ -724,6 +726,7 @@
     <Content Include="Views\AllocatedLecturers\Index.cshtml" />
     <Content Include="Views\Calendar\Index.cshtml" />
     <Content Include="Views\Modules\AssignLecIC.cshtml" />
+    <Content Include="Views\Projects\CreateExternal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

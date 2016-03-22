@@ -5,59 +5,60 @@
 }
 
 <h4>Details</h4>
-<hr/>
+<hr />
 <div>
-    <h3>Module:  @Html.DisplayFor(model=>model.ModuleId) </h3>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-       <h3>hhhhhhhh</h3>     @Html.DisplayNameFor(model => model.Description)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-heading"><h3>Module:  @Html.DisplayFor(model => model.ModuleId) </h3></div>
+            <div class="panel-body" style="width:500px;">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.MaxCount)
-        </dt>
+                <dl class="dl-horizontal">
 
-        <dd>
-            @Html.DisplayFor(model => model.MaxCount)
-        </dd>
+                    <dt>
+                        <h4>  @Html.DisplayNameFor(model => model.Description) </h4> </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Year)
-        </dt>
+                    <dd>
+                        <h4>    @Html.DisplayFor(model => model.Description)</h4> </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Year)
-        </dd>
+                    <dt>
+                        <h5> @Html.DisplayNameFor(model => model.MaxCount)</h5>  </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.semester)
-        </dt>
+                    <dd>
+                        <h5> @Html.DisplayFor(model => model.MaxCount)</h5></dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.semester)
-        </dd>
+                    <dt>
+                        <h5> @Html.DisplayNameFor(model => model.Year)</h5>    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.LecturerIncharge)
-        </dt>
+                    <dd>
+                        <h5> @Html.DisplayFor(model => model.Year)</h5>     </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.LecturerIncharge)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.MaxLecPanel)
-        </dt>
+                    <dt>
+                        <h5> @Html.DisplayNameFor(model => model.semester)</h5>    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.MaxLecPanel)
-        </dd>
+                    <dd>
+                        <h5> @Html.DisplayFor(model => model.semester)</h5>    </dd>
 
-    </dl>
+                    <dt>
+                        <h5>  @Html.DisplayNameFor(model => model.LecturerIncharge)</h5>    </dt>
+
+                    <dd>
+                        <h5> @if (Model.LecturerIncharge == null)
+                        {
+                            @Html.Raw("N/A")
+
+                        }
+                        @Html.DisplayFor(model => model.LecturerIncharge)</h5>   </dd>
+                    <dt>
+                        <h5>   @Html.DisplayNameFor(model => model.MaxLecPanel)</h5> </dt>
+
+                    <dd>
+                        <h5>@Html.DisplayFor(model => model.MaxLecPanel)</h5>  </dd>
+
+                </dl>
+            </div>
+        </div>
+    </div>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ModuleId }) |

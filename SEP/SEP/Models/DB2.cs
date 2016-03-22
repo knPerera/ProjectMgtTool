@@ -23,19 +23,20 @@ namespace SEP.Models
 
         public DbSet<Module> Modules { get; set; }
 
+        public DbSet<ModuleDate>ModuleDate { get; set; }
+        
         public DbSet<Project> Projects { get; set; }
 
         public DbSet<Client> Clients { get; set; }
 
         public DbSet<StudentGroupeList> StudentGroupeLists { get; set; }
 
-        public DbSet<languageProficiency> languageProficiencies { get; set; }
+        public DbSet<LanguageProficiency> LanguageProficiencies { get; set; }
         public DbSet<Event> Event { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
-
         public System.Data.Entity.DbSet<SEP.Models.Group> Groups { get; set; }
         public System.Data.Entity.DbSet<SEP.Models.AllocatedLecturers> AllocatedLecturers { get; set; }
 

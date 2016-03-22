@@ -4,55 +4,67 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Project Details</h2>
 
 <div>
-    <h4>Project</h4>
+   
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.ModuleId)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.ModuleId)
-        </dd>
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3>Project ID: @Html.DisplayFor(model => model.ProjectId) </h3></div>
+                <div class="panel-body" style="width:500px;">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            <h4>@Html.DisplayNameFor(model => model.Name)</h4>
+                        </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+                        <dd>
+                       <h4>@Html.DisplayFor(model => model.Name)</h4>
+                        </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+                        <dt>
+                            <h5>@Html.DisplayNameFor(model => model.ModuleId)  </h5>
+</dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Client)
-        </dt>
+                        <dd>
+                            <h5> @Html.DisplayFor(model => model.ModuleId)  </h5>
+</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Client)
-        </dd>
+                        <dt>
+                            <h5>@Html.DisplayNameFor(model => model.Description)  </h5>
+</dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PreferedTechnologies)
-        </dt>
+                        <dd>
+                            <h5> @Html.DisplayFor(model => model.Description)  </h5>
+</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.PreferedTechnologies)
-        </dd>
+                        <dt>
+                            <h5>@Html.DisplayNameFor(model => model.Client)  </h5>
+</dt>
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ProjectId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+                        <dd>
+                          <h5> @Html.DisplayFor(model => model.Client)</h5>
+                        </dd>
+
+                        <dt>
+                            <h5>@Html.DisplayNameFor(model => model.PreferedTechnologies) </h5>
+                        </dt>
+
+                        <dd>
+                            <h5>@Html.DisplayFor(model => model.PreferedTechnologies) </h5>
+</dd>
+
+                    </dl>
+                </div>
+            </div>
+                </div>
+            </div>
+            </div>
+            <p>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.ProjectId }) |
+                @Html.ActionLink("Back to List", "Index")
+            </p>

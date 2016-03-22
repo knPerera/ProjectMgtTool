@@ -19,7 +19,7 @@
 {
 
     <div class="col-md-8">
-        Search Module
+        Search Module By Name or Code
         @Html.TextBox("SearchString")
 
         <button type="submit" class="btn btn-info">
@@ -38,6 +38,7 @@
 
 <table class="table table-hover">
     <tr class="active">
+        
         <th>
             @Html.DisplayNameFor(model => model.ModuleId)
         </th>
@@ -87,7 +88,6 @@
 
                 }
 
-
                 @Html.DisplayFor(modelItem => item.LecturerIncharge)
             </td>
             <td>
@@ -96,8 +96,6 @@
             <td>
                 @Html.DisplayFor(modelItem => item.MaxLecPanel)
             </td>
-
-
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.ModuleId }) |
                 @Html.ActionLink("Details", "Details", new { id = item.ModuleId }) |
@@ -107,8 +105,6 @@
     }
 
 </table>
-
-
 
 @{
     <script src="~/Scripts/js/jquery.js"></script>

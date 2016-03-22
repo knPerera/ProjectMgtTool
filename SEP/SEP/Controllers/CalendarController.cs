@@ -25,7 +25,6 @@ namespace SEP.Controllers
         /// <returns>view of the calendar</returns>
         public ActionResult Index()
         {
-
             if ((string)Session["Position"] == "student")
             {
                 ViewBag.StMsg = "Click on the Calendar to add a Request for a Supervisor Meeting";
@@ -37,43 +36,50 @@ namespace SEP.Controllers
             scheduler.Config.multi_day = true;
             scheduler.LoadData = true;
             scheduler.EnableDataprocessor = true;
-
+            
             return View(scheduler);
         }
-   /// <summary>
-   /// get database data accrding to the position
-   /// </summary>
-   /// <returns>details to the calander view according to the position of the user</returns>
+        /// <summary>
+        /// get database data accrding to the position
+        /// </summary>
+        /// <returns>details to the calander view according to the position of the user</returns>
         public ContentResult Data()
         {
+            //if the user is a student
             if ((string)Session["Position"] == "student")
             {
-                             
+                //calling this method to get the supervisor model 
                 var supervisor = GetStudentData();
+                //get data from the table according to the supervisor id
                 var supervisorData = from m in db.Event
-                        where m.LecturerId == supervisor.LecturerId
-                        select m;
+                                     where m.LecturerId == supervisor.LecturerId
+                                     select m; 
+
 
                 var data = new SchedulerAjaxData(supervisorData);
                 return (ContentResult)data;
             }
             else
             {
+                //if the user is a lecturer
                 string lecturerId = ((string)Session["id"]);
+
+                //get the data from the table according to the session id
                 var appoinmentData = from m in db.Event
-                         where m.LecturerId == lecturerId
-                         select m;
+                                     where m.LecturerId == lecturerId
+                                     select m;
 
                 var data = new SchedulerAjaxData(appoinmentData);
                 return (ContentResult)data;
 
             }
         }
+
         /// <summary>
-        /// save the data from the calendar view
+        /// save the data to the database from the calendar view
         /// </summary>
         /// <param name="id">event id</param>
-        /// <param name="actionValues"></param>
+        /// <param name="actionValues">save or update or delete</param>
         /// <returns></returns>
         public ContentResult Save(int? id, FormCollection actionValues)
         {
@@ -88,46 +94,52 @@ namespace SEP.Controllers
                     case DataActionTypes.Insert:
                         //do insert
                         //action.TargetId = changedEvent.id;
-                        if ((string)Session["Position"] == "student")
+
+                        try
                         {
-                            var supervisorId = GetStudentData();
-                            changedEvent.LecturerId = supervisorId.LecturerId.ToString();
+                            if ((string)Session["Position"] == "student")
+                            {
+                                var supervisorId = GetStudentData();    //calling this method to get the supervisorId
+                                changedEvent.LecturerId = supervisorId.LecturerId.ToString();
 
-                            string time = DateTime.Now.ToString("HH:mm:ss tt");
-                            string query = "insert into  dbo.Requests(Name,Request,Status,Loaded) values(@a1,@a2,@a3,@a4)";
-                            List<object> parameterList = new List<object>();
-                            parameterList.Add(new SqlParameter("@a1", changedEvent.LecturerId));
-                            parameterList.Add(new SqlParameter("@a2", Session["UserName"] + "Requests for a meeting on" + changedEvent.start_date + "CUT" + Session["Avatar"] + "CUT" + time + "CUT" + changedEvent.id + "CUTAppoinment"));
-                            parameterList.Add(new SqlParameter("@a3", 2));
-                            parameterList.Add(new SqlParameter("@a4", 2));
-                            object[] parameters123 = parameterList.ToArray();
-                            int rs = db.Database.ExecuteSqlCommand(query, parameters123);
+                                var groupNo = from m in db.StudentGroupeLists
+                                        where m.StuId == ((string)Session["id"])
+                                        select m.GroupNo;
 
-                            data.Events.InsertOnSubmit(changedEvent);
-                            break;
+                                //insert the data to the request table
+                                string time = DateTime.Now.ToString("HH:mm:ss tt");
+                                string query = "insert into  dbo.Requests(Name,Request,Status,Loaded) values(@a1,@a2,@a3,@a4)";
+                                List<object> parameterList = new List<object>();
+                                parameterList.Add(new SqlParameter("@a1", supervisorId.Name));
+                                parameterList.Add(new SqlParameter("@a2", groupNo + "Requests for a meeting on" + changedEvent.start_date + "CUT" + Session["Avatar"] + "CUT" + time + "CUT" + changedEvent.id + "CUTAppoinment"));
+                                parameterList.Add(new SqlParameter("@a3", 2));
+                                parameterList.Add(new SqlParameter("@a4", 2));
+                                object[] parameters123 = parameterList.ToArray();
+                                int rs = db.Database.ExecuteSqlCommand(query, parameters123);
+
+                                data.Events.InsertOnSubmit(changedEvent);
+                                break;
+                            }
+                            else
+                            {
+                                //if the user is a lecturer 
+                                string lecturerId = (string)Session["id"];
+                                changedEvent.LecturerId = lecturerId;
+                                data.Events.InsertOnSubmit(changedEvent);
+                                break;
+                            }
                         }
-                        else
+                        catch (Exception e)
                         {
-                            string lid = (string)Session["id"];
-                            changedEvent.LecturerId = lid;
-                            data.Events.InsertOnSubmit(changedEvent);
-                            break;
-
+                            throw e;
                         }
-                    //{
-                    //if (changedEvent.start_date < DateTime.Today)
-                    //{
-                    //    TempData["MsgDate"] = "Select valid Appoinment Date";
-                    //    RedirectToAction("Index");
-                    //}
-
 
                     case DataActionTypes.Delete:
                         //do delete
                         if ((string)Session["Position"] == "student")
                         {
-                            TempData["MsgDlt"] = "You Dont have permission to delete the Event!";
-                            //  RedirectToAction("Index");
+                            TempData["MsgDlt"] = "You Dont have permission to delete the Appoinment!";
+                            RedirectToAction("Index");
                             break;
                         }
                         else
@@ -135,22 +147,29 @@ namespace SEP.Controllers
                             changedEvent = data.Events.SingleOrDefault(ev => ev.id == action.SourceId);
                             data.Events.DeleteOnSubmit(changedEvent);
                             break;
-                            //    return (ContentResult)new AjaxSaveResponse(action);
 
                         }
                     default:
                         //do update
-                        if ((string)Session["Position"] == "student")
+                        try
                         {
-                            break;
-                        }
-                        else
-                        {
-                            var eventToUpdate = data.Events.SingleOrDefault(ev => ev.id == action.SourceId);
-                            DHXEventsHelper.Update(eventToUpdate, changedEvent, new List<string>() { "id" });//update all properties, except for id
-                            break;
+                            if ((string)Session["Position"] == "student")
+                            {
+                                TempData["MsgDlt"] = "You Dont have permission!";
+                                RedirectToAction("Index");
+                                break;
+                            }
+                            else
+                            {
+                                var eventToUpdate = data.Events.SingleOrDefault(ev => ev.id == action.SourceId);
+                                DHXEventsHelper.Update(eventToUpdate, changedEvent, new List<string>() { "id" });//update all properties, except for id
+                                break;
 
-                            //   return (ContentResult)new AjaxSaveResponse(action);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            throw e;
                         }
                 }
 
@@ -164,7 +183,7 @@ namespace SEP.Controllers
             return (ContentResult)new AjaxSaveResponse(action);
         }
         /// <summary>
-        /// get lecturer details according to the position of the user
+        /// get lecturer details when the user is a student
         /// </summary>
         /// <returns>Lecturer ID</returns>
         public Lecturer GetStudentData()

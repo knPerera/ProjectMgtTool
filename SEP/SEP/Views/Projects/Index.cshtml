@@ -19,13 +19,14 @@
             Search Project
             @Html.TextBox("SearchString")
             <button type="submit" class="btn btn-info">
-                <span class="glyphicon glyphicon-search"></span> Search
+                <span class="glyphicon glyphicon-search"></span> Search By Name
             </button>
 
             <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("Index", "Projects")'">
                 <span class="glyphicon glyphicon-refresh"></span> Refresh
             </button>
         </div>
+    
 
     }
 </p>
@@ -33,6 +34,9 @@
 <br/>
 <table class="table table-hover">
     <tr class="active">
+        <th>
+            @Html.DisplayNameFor(model => model.ProjectId)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.ModuleId)
         </th>
@@ -54,6 +58,9 @@
     @foreach (var item in Model)
     {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProjectId)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ModuleId)
             </td>
@@ -78,3 +85,23 @@
     }
 
 </table>
+<script>
+
+        @if(TempData["Msg1"] != null)
+        {<text>
+        $(window).load(function () {
+            $(document).ready(function () {
+                swal({
+                    title: "Check!",
+                    text: "@TempData["Msg1"]",
+                    type: "warning"
+                });
+
+                TempData["Msg1"].text = null;
+            });
+        });
+
+
+        </text>
+        }
+</script>

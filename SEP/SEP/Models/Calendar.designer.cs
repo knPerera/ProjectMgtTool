@@ -160,9 +160,6 @@ namespace SEP.Models
 			{
 				if ((this._start_date != value))
 				{
-                    //if (this._start_date < DateTime.Today) {
-                        
-                    //}
 					this.Onstart_dateChanging(value);
 					this.SendPropertyChanging();
 					this._start_date = value;

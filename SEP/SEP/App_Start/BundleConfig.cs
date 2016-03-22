@@ -23,7 +23,7 @@ namespace SEP
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js",
                       "~/Scripts/kav_loadstu.js",
-                      "~/Scripts/Reg.js"));
+                      "~/Scripts/Reg2.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

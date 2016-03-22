@@ -10,29 +10,28 @@ using SEP.Models;
 using System.Diagnostics;
 
 namespace SEP.Controllers
-{
+{/// <summary>
+/// 
+/// </summary>
     public class ModulesController : Controller
     {
         private DB2 db = new DB2();
-
 
         /// <summary>
         /// Get all modules details in the database
         /// </summary>
         /// <returns>List of all modules details </returns>
+        [AuthorizeUserAcessLevel(UserRole = "HOD")]
         public ActionResult Index()
         {
-            if ((string)Session["Position"] == "student")
-            {
-
-            }
             return View(db.Modules.ToList());
         }
         /// <summary>
         /// Get modules details in database
         /// </summary>
         /// <param name="searchString">modulename</param>
-        /// <returns>all the details of the module according to the paramatere</returns>
+        /// <returns>all the details of the module according to the paramatere status</returns>
+        [AuthorizeUserAcessLevel(UserRole = "Lecturer,HOD")]
         public ActionResult ViewAll(string searchString)
         {
             var names = from m in db.Modules
@@ -43,38 +42,6 @@ namespace SEP.Controllers
                 names = names.Where(s => s.Description.Contains(searchString) || s.ModuleId.Contains(searchString));
             }
             return View(names);
-        }
-
-        /// <summary>
-        /// Get module details
-        /// </summary>
-        /// <returns>list of modules that do not have a lecturer incharge</returns>
-        [HttpGet]
-        public ActionResult ViewLecIC()
-        {
-            ViewBag.Modules = db.Modules;
-            var details = db.Modules.Where(d => d.LecturerIncharge == null).ToList();
-
-            ViewBag.Lecturers = db.Lecturers;
-            ViewBag.NLModules = db.Modules.Where(m => m.LecturerIncharge == "N/A" || m.LecturerIncharge == null);
-
-            return View(details);
-        }
-        /// <summary>
-        /// Set Lecturer Incharge for a module
-        /// </summary>
-        /// <param name="module">LecturerIncharge name</param>
-        /// <returns></returns>
-        [HttpPost]
-        public ActionResult ViewLecIC([Bind(Include = "LecturerIncharge")] Module module)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(module).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("ViewAll");
-            }
-            return View(module);
         }
 
         /// <summary>
@@ -97,19 +64,20 @@ namespace SEP.Controllers
             return View(module);
         }
         /// <summary>
-        /// get values neede for creating a new module
+        /// get values need for creating a new module
         /// </summary>
         /// <returns></returns>
         // GET: Modules/Create
+        [AuthorizeUserAcessLevel(UserRole = "HOD")]
         public ActionResult Create()
         {
-            ComboValues();
+            ComboValues(); //call the method where the comboBox values get 
             return View();
         }
         /// <summary>
-        /// 
+        /// create new module and set the values to the database
         /// </summary>
-        /// <param name="module"></param>
+        /// <param name="module">colomn values of new module</param>
         /// <returns></returns>
         // POST: Modules/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -118,11 +86,10 @@ namespace SEP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ModuleId,Description,MaxCount,Year,semester,LecturerIncharge,MaxLecPanel")] Module module)
         {
-
-            if (db.Modules.Any(m => m.ModuleId.Equals(module.ModuleId)))
+            //check whether modulecode already in the database table
+            if (db.Modules.Any(m => m.ModuleId.Equals(module.ModuleId))) 
             {
                 TempData["ErrMsg1"] = "Module Code Already Exists!";
-                ModelState.AddModelError("Module Code Already exists", "Error");
             }
             if (ModelState.IsValid)
             {
@@ -133,7 +100,7 @@ namespace SEP.Controllers
                     TempData["Msg1"] = "Successfully Inserted";
                     return RedirectToAction("ViewAll");
                 }
-                catch
+                catch (Exception ex)
                 {
                     ComboValues();
                     return View(module);
@@ -184,14 +151,16 @@ namespace SEP.Controllers
                 {
                     db.Entry(module).State = EntityState.Modified;
                     db.SaveChanges();
+                    TempData["Msg1"] = "Successfully Updted!";
                     return RedirectToAction("ViewAll");
                 }
-                catch
+                catch (Exception ex)
                 {
                     ComboValues();
+                    TempData["Msg1"] = "Error in Updating!";
                     return View(module);
+                    throw ex;
                 }
-
             }
             else
             {
@@ -199,10 +168,49 @@ namespace SEP.Controllers
                 return View(module);
             }
         }
+
+
         /// <summary>
-        /// 
+        /// Get module details
         /// </summary>
-        /// <param name="id">MduleCode</param>
+        /// <returns>list of modules that do not have a lecturer incharge</returns>
+        [AuthorizeUserAcessLevel(UserRole = "HOD")]
+        [HttpGet]
+        public ActionResult ViewLecIC()
+        {
+            ViewBag.Modules = db.Modules;
+            var details = db.Modules.Where(d => d.LecturerIncharge == null).ToList();
+            ViewBag.Lecturers = db.Lecturers;
+            return View(details);
+        }
+        /// <summary>
+        /// Set Lecturer Incharge for a module
+        /// </summary>
+        /// <param name="module">LecturerIncharge name</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult ViewLecIC([Bind(Include = "LecturerIncharge")] Module module)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    db.Entry(module).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("ViewAll");
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+            return View(module);
+        }
+
+        /// <summary>
+        /// get ist of module details that not assigned a LecturerIncharge
+        /// </summary>
+        /// <param name="id">ModuleCode</param>
         /// <returns>View of the module details according to the param</returns>
         public ActionResult AssignLecIC(string id)
         {
@@ -215,12 +223,11 @@ namespace SEP.Controllers
             {
                 return HttpNotFound();
             }
-
             ComboValues();
             return View(module);
         }
         /// <summary>
-        /// Assign LecturerIncharge for a module
+        /// Assign LecturerIncharge for the module
         /// </summary>
         /// <param name="module">moduleCode</param>
         /// <returns></returns>
@@ -239,10 +246,11 @@ namespace SEP.Controllers
                     db.SaveChanges();
                     return RedirectToAction("ViewAll");
                 }
-                catch
+                catch (Exception ex)
                 {
                     ComboValues();
                     return View(module);
+                    // throw ex;
                 }
 
             }
@@ -253,7 +261,7 @@ namespace SEP.Controllers
             }
         }
         /// <summary>
-        /// get the values
+        /// get the values according to the id
         /// </summary>
         /// <param name="id">module code</param>
         /// <returns>details of the module according to the param</returns>
@@ -272,9 +280,9 @@ namespace SEP.Controllers
             return View(module);
         }
         /// <summary>
-        /// delete the module
+        /// delete the module 
         /// </summary>
-        /// <param name="id">mduleCode</param>
+        /// <param name="id">moduleCode</param>
         /// <returns>delete the module according to the param</returns>
         // POST: Modules/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -287,7 +295,7 @@ namespace SEP.Controllers
             return RedirectToAction("ViewAll");
         }
         /// <summary>
-        /// 
+        /// get lecturer details and assign items for the year list 
         /// </summary>
         public void ComboValues()
         {
@@ -301,7 +309,7 @@ namespace SEP.Controllers
 
         }
         /// <summary>
-        /// 
+        /// close the db connection
         /// </summary>
         /// <param name="disposing"></param>
         protected override void Dispose(bool disposing)
