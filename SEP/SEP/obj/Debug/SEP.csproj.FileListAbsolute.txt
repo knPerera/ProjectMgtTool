@@ -183,3 +183,5 @@ E:\bckup\SEP\SEP\SEP\obj\Debug\SEP.Migrations.First.resources
 E:\bckup\SEP\SEP\SEP\obj\Debug\SEP.csproj.GenerateResource.Cache
 E:\bckup\SEP\SEP\SEP\obj\Debug\SEP.dll
 E:\bckup\SEP\SEP\SEP\obj\Debug\SEP.pdb
+E:\bckup\SEP\SEP\SEP\bin\JQueryUIHelpers.dll
+E:\bckup\SEP\SEP\SEP\bin\JQueryUIHelpers.xml

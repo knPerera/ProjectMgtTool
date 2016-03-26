@@ -71,7 +71,8 @@ namespace SEP.Controllers
         [AuthorizeUserAcessLevel(UserRole = "HOD")]
         public ActionResult Create()
         {
-            ComboValues(); //call the method where the comboBox values get 
+            //call the method where the comboBox values get 
+            ComboValues();
             return View();
         }
         /// <summary>
