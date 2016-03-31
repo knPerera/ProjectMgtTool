@@ -189,13 +189,13 @@ namespace SEP.Controllers
         public Lecturer GetStudentData()
         {
             string studentId = ((string)Session["id"]);
-            Group supervisorName = (from Y in db.StudentGroupeLists
-                                    join B in db.Groups on Y.GroupNo equals B.GroupID
+            AllocateSupervisors supervisorName = (from Y in db.StudentGroupeLists
+                                    join B in db.AllocateSupervisors on Y.GroupNo equals B.groupid
                                     where (Y.StuId == studentId)
-                                    select B).FirstOrDefault<Group>();
+                                    select B).FirstOrDefault<AllocateSupervisors>();
 
             Lecturer lecturerId = (from m in db.Lecturers
-                                   where m.Name == supervisorName.Supervisor
+                                 where m.Name == supervisorName.supervisor
                                    select m).FirstOrDefault<Lecturer>();
             return lecturerId;
 

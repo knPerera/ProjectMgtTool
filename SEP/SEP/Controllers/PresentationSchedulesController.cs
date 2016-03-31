@@ -40,113 +40,15 @@ namespace SEP.Controllers
         // GET: PresentationSchedules/Create
         public ActionResult Create()
         {
-            Debug.WriteLine("ooooooooooo");
-            //   TimeSpan
-          //  CalculateGroups(startTime, endTime, oneGroupTime);
+            var id = (from p in db.PresentationSchedule
+                                     select p.Id).Max();
+            
+            int sid = id + 1;
+            ViewBag.shedid = sid.ToString();
+            Debug.WriteLine(sid);
             ComboValues();
-       //  int result= CalculateGroups("01:30 PM", "04:00 PM",20);        
+            ViewBag.Presentation = db.iterationInformations;
             return View();
-        }
-
-        private int CalculateGroups(string startTime, string endTime,int oneGroupTime)
-        {
-            Debug.WriteLine("brrrrrrr");
-            Debug.WriteLine(startTime);
-            Debug.WriteLine(endTime);
-            Debug.WriteLine(oneGroupTime);
-
-
-            int groups;
-            //string startUnit = startTime.Substring(startTime.Length - 2, 2);
-            //string endUnit = endTime.Substring(endTime.Length - 2, 2);
-
-            //string start = startTime.Substring(0, 5);
-            //string end = endTime.Substring(0, 5);
-
-            //int startHour = int.Parse(startTime.Substring(0, 2));
-            //int endHour = int.Parse(endTime.Substring(0, 2));
-
-            //int startMin = int.Parse(startTime.Substring(3, 2));
-            //int endMin = int.Parse(endTime.Substring(3, 2));
-
-            int difMin, difHr;
-            int totMins = 40 ;
-
-          //  Debug.WriteLine(endHour + endUnit);
-            //int h3 = DateTime.Parse(endHour + endUnit).Hour;
-
-            //if (startUnit.Equals("AM") && endUnit.Equals("AM"))
-            //{
-            //    if (endMin < startMin)
-            //    {
-            //        difMin = (endMin + 60) - startMin;
-            //        difHr = (endHour - 1) - startHour;
-            //        totMins = difMin + (difHr * 60);
-            //        Debug.WriteLine("Wede Hariiii " + totMins);
-            //    }
-            //    else if (startHour > endHour)
-            //    {
-            //        Debug.WriteLine("Weradiiiiiiiiii");
-            //    }
-            //    else
-            //    {
-            //        difMin = endMin - startMin;
-            //        difHr = endHour - startHour;
-            //        totMins = difMin + (difHr * 60);
-            //    }
-            //}
-
-            //else if (startUnit.Equals("PM") && endUnit.Equals("AM"))
-            //{
-            //    Debug.WriteLine("Errrorrrrrrr! weradiiiii");
-            //}
-
-            //else if (startUnit.Equals("AM") && endUnit.Equals("PM"))
-            //{
-
-            //    int end24 = DateTime.Parse(endHour + endUnit).Hour;
-
-            //    if (endMin < startMin)
-            //    {
-            //        difMin = (endMin + 60) - startMin;
-            //        difHr = (end24 - 1) - startHour;
-            //        totMins = difMin + (difHr * 60);
-            //        Debug.WriteLine("22222222Wede Hariiii " + totMins);
-            //    }
-            //    else
-            //    {
-            //        difMin = endMin - startMin;
-            //        difHr = end24 - startHour;
-            //        totMins = difMin + (difHr * 60);
-            //    }
-            //}
-
-            //else if (startUnit.Equals("PM") && endUnit.Equals("PM"))
-            //{
-            //    if (endMin < startMin)
-            //    {
-            //        difMin = (endMin + 60) - startMin;
-            //        difHr = (endHour - 1) - startHour;
-            //        totMins = difMin + (difHr * 60);
-            //        Debug.WriteLine("22222222Wede Hariiii " + totMins);
-            //    }
-            //    else if (startHour > endHour)
-            //    {
-            //        Debug.WriteLine("Weradiiiiiiiiii");
-            //    }
-            //    else
-            //    {
-            //        difMin = endMin - startMin;
-            //        difHr = endHour - startHour;
-            //        totMins = difMin + (difHr * 60);
-            //        Debug.WriteLine("Wede Hariiiiii333333333");
-            //    }
-
-          //  }
-
-            //groups = totMins / oneGroupTime;
-            return 20;
-         //   throw new NotImplementedException();
         }
 
         // POST: PresentationSchedules/Create
@@ -154,16 +56,23 @@ namespace SEP.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Presentation,Date,Venue,TimePerGroup,Unit,StartTime,EndTime,NoOfGroups,NoOfPanels")] PresentationSchedule presentationSchedule)
+        public ActionResult Create([Bind(Include = "Id,Presentation,Date,Venue,TimePerGroup,Unit,StartTime,EndTime,Interval,NoOfGroups,NoOfPanels")] PresentationSchedule presentationSchedule)
         {
-
             Debug.WriteLine("llllll");
             ComboValues();
+            ViewBag.Presentation = db.iterationInformations;
+
+            ViewBag.stTime = from m in db.PresentationSchedule                              
+                                 select m.StartTime;
+
+           // ViewBag.stTime = startTime;
+
             if (ModelState.IsValid)
             {
+                ViewBag.Presentation = db.iterationInformations;
                 db.PresentationSchedule.Add(presentationSchedule);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Confirm", "PresentationGroups");
             }
 
             return View(presentationSchedule);
@@ -189,7 +98,7 @@ namespace SEP.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Presentation,Date,Venue,TimePerGroup,Unit,StartTime,EndTime,NoOfGroups,NoOfPanels")] PresentationSchedule presentationSchedule)
+        public ActionResult Edit([Bind(Include = "Id,Presentation,Date,Venue,TimePerGroup,Unit,StartTime,EndTime,Interval,NoOfGroups,NoOfPanels")] PresentationSchedule presentationSchedule)
         {
             if (ModelState.IsValid)
             {
@@ -227,12 +136,8 @@ namespace SEP.Controllers
         }
         public void ComboValues()
         {
-            List<SelectListItem> items = new List<SelectListItem>();
-            items.Add(new SelectListItem { Text = "Proposal Presentation", Value = "1" });
-            items.Add(new SelectListItem { Text = "Iteration 1 Presentation", Value = "2" });
-            items.Add(new SelectListItem { Text = "Iteration 2 Presentation", Value = "3" });
-            items.Add(new SelectListItem { Text = "Final Presentation", Value = "4" });
-            ViewBag.Presentation = items;
+            ViewBag.Presentation = db.iterationInformations;
+
 
             List<SelectListItem> items2 = new List<SelectListItem>();
             items2.Add(new SelectListItem { Text = "min", Value = "min" });

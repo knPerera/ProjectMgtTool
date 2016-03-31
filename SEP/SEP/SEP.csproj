@@ -196,7 +196,6 @@
     <Compile Include="Controllers\ClientsController.cs" />
     <Compile Include="Controllers\DropdwnController.cs" />
     <Compile Include="Controllers\Groups1Controller.cs" />
-    <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LecModController.cs" />
     <Compile Include="Controllers\LecturePanelController.cs" />
@@ -204,6 +203,7 @@
     <Compile Include="Controllers\MailController.cs" />
     <Compile Include="Controllers\ModuleDatesController.cs" />
     <Compile Include="Controllers\ModulesController.cs" />
+    <Compile Include="Controllers\PresentationGroupsController.cs" />
     <Compile Include="Controllers\PresentationSchedulesController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
@@ -219,6 +219,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AllocatedLecturers.cs" />
+    <Compile Include="Models\AllocateSupervisors.cs" />
     <Compile Include="Models\Calendar.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -226,6 +227,7 @@
     </Compile>
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\DB2.cs" />
+    <Compile Include="Models\EvaluationPanel.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\iterationInformation.cs" />
     <Compile Include="Models\languageProficiency.cs" />
@@ -799,11 +801,6 @@
     <Content Include="Views\Lecturers\Details.cshtml" />
     <Content Include="Views\Lecturers\Edit.cshtml" />
     <Content Include="Views\Lecturers\Index.cshtml" />
-    <Content Include="Views\Groups\Create.cshtml" />
-    <Content Include="Views\Groups\Delete.cshtml" />
-    <Content Include="Views\Groups\Details.cshtml" />
-    <Content Include="Views\Groups\Edit.cshtml" />
-    <Content Include="Views\Groups\Index.cshtml" />
     <Content Include="Views\Students1\Create.cshtml" />
     <Content Include="Views\Students1\Delete.cshtml" />
     <Content Include="Views\Students1\Details.cshtml" />
@@ -870,6 +867,12 @@
     <Content Include="Views\PresentationSchedules\Details.cshtml" />
     <Content Include="Views\PresentationSchedules\Edit.cshtml" />
     <Content Include="Views\PresentationSchedules\Index.cshtml" />
+    <Content Include="Views\PresentationGroups\Create.cshtml" />
+    <Content Include="Views\PresentationGroups\Delete.cshtml" />
+    <Content Include="Views\PresentationGroups\Details.cshtml" />
+    <Content Include="Views\PresentationGroups\Edit.cshtml" />
+    <Content Include="Views\PresentationGroups\Index.cshtml" />
+    <Content Include="Views\PresentationGroups\Confirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

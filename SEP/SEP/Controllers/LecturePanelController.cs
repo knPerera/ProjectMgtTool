@@ -58,8 +58,8 @@ namespace SEP.Controllers
             try
             {
 
-                mymodel.Add(db.AllocatedLecturers.Where(acd => acd.Supervisors.Equals(group.Supervisor)).ToList());
-                mymodel.Add(db.Groups.Where(ac => ac.GroupID.Equals(id)).ToList());
+              //  mymodel.Add(db.AllocatedLecturers.Where(acd => acd.Supervisors.Equals(group.Supervisor)).ToList());
+                //mymodel.Add(db.Groups.Where(ac => ac.GroupID.Equals(id)).ToList());
 
             }
             catch (System.Reflection.TargetException t)

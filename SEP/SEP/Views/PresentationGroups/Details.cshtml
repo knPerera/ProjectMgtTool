@@ -1,0 +1,74 @@
+﻿@model SEP.Models.PresentationGroups
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PresentationGroups</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ScheduleId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ScheduleId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PanelNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PanelNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GroupId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GroupId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProjectId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProjectId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Supervisor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Supervisor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndTime)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

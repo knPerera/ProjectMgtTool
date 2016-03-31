@@ -63,13 +63,8 @@
                     document.getElementById('groups').value = $round.toString();
                 } else {
                     document.getElementById('groups').value = $stringgrps;
-                }
-
-               
+                }             
             }
-
-         //   document.getElementById('labelId')
-
         }     
 
     });
@@ -93,11 +88,13 @@
         document.getElementById('finalgrp').value = $grps;
       //  var txtbx = document.getElementById('finalgrp');
        // txtbx.removeAttribute("disabled");
-
-
+    });
+   
+    $("#btnCreateSched").click(function () {
+    //    var $grps = $("#groups").val();
+        document.getElementById('startTimeCol').value="11.30";
+        alert("aaaaaaaaaa");
 
     });
-
-
 
 });

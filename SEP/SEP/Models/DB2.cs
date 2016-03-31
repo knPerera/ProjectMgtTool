@@ -24,7 +24,8 @@ namespace SEP.Models
         public DbSet<Module> Modules { get; set; }
 
         public DbSet<ModuleDate>ModuleDate { get; set; }
-
+        public DbSet<AllocateSupervisors> AllocateSupervisors { get; set; }
+        public DbSet<EvaluationPanel> evaluationpanel { get; set; }
         public DbSet<PresentationSchedule> PresentationSchedule{ get; set; }
 
         public DbSet<PresentationGroups> PresentationGroups { get; set; }

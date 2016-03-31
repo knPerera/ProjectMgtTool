@@ -17,7 +17,9 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Presentation, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.DropDownList("Presentation", null, new { @class = "form-control" })
+                       
+                        @Html.DropDownListFor(model => model.Presentation, new SelectList(ViewBag.Presentation, "iteration", "iteration"),
+              "Select", new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.Presentation, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -44,9 +46,6 @@
                         @Html.ValidationMessageFor(model => model.NoOfPanels, "", new { @class = "text-danger" })
                     </div>
                 </div>
-
-
-
             </div>
             <div class="col-xs-7">
 
@@ -58,9 +57,9 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-xs-2">
-                                        @Html.LabelFor(model => model.TimePerGroup, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        @Html.LabelFor(model => model.TimePerGroup, htmlAttributes: new { @class = "control-label col-md-4" })
                                     </div>
-                                    <div class="col-xs-2">
+                                    <div class="col-xs-3">
                                         @Html.EditorFor(model => model.TimePerGroup, new { htmlAttributes = new { id = "timeonegrp", name = "timegrp", style = "width: 100px;", @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.TimePerGroup, "", new { @class = "text-danger" })
                                     </div>
@@ -96,14 +95,17 @@
                           
                             <p>
                                 Intervel between 2 presentation:
-                                <input type="text" id="txtinterval" style="width:50px" />
+                                @Html.EditorFor(model => model.Interval, new { htmlAttributes = new { id = "txtinterval", style = "width: 80px;" , @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Interval, "", new { @class = "text-danger" })
+                              <!--  <input type="text" id="txtinterval" style="width:50px" />-->
                             </p>
                             <br/>
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-xs-2">
-                                        @Html.LabelFor(model => model.NoOfGroups, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    </div>
+                                        @*@Html.LabelFor(model => model.NoOfGroups, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                  Groups
+                                      </div>
                                     <div class="col-xs-2">
                                         <input type="button" id="calNumGrps" value="Calculate" class="btn btn-success" />
                                     </div>
@@ -129,60 +131,37 @@
                                 <br /> <br />
                                 <div class="row" id="div_yes" style="visibility:hidden">
                                     <div class="col-xs-3">
-                                        Enter No Of Groups
+                                        @Html.LabelFor(model => model.NoOfGroups, htmlAttributes: new { @class = "control-label col-md-2" })
                                     </div>
                                     <div class="col-xs-3">
                                         @Html.EditorFor(model => model.NoOfGroups, new { htmlAttributes = new { id = "finalgrp", style = "width: 100px;", @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.NoOfGroups, "", new { @class = "text-danger" })
-
-
                                     </div>
 
-                                </div>
-
-                         
-                       
-                                 
+                                </div>          
                         </div>
                             </div>
                         </div>
-
-
-            
                  </div>
-
-
             </div>
-      
-            
-
-     
-        
+              
         <div class="form-group">
+
+       @*//     @Html.ActionLink("Create", "PresentationGroups", "Create", new { id = Model.Id })*@
             <div class="col-md-offset-2 col-md-offset-9">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" id="btnCreateSched" value="Create" class="btn btn-primary" />
             </div>
         </div>
     </div>
         
 }
 
+  <h1>@ViewBag.shedid</h1> 
+
 <div>
-    @Html.ActionLink("Back to List", "Index")
+  
+    @Html.ActionLink("Link Text", "Confirm")
+    
+   @*@Html.ActionLink("mmmmm", "Create", new { Controller = "PresentationGroups", action = "Create", id = @ViewBag.shedid })*@
 </div>
 
-
-
-@*<script>
-
-    $(document).ready(function(){ 
-
-        $("#calNumGrps").click(function(){
-           
-        });
-
-
-        });
-
-
-</script>*@

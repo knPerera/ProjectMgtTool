@@ -12,6 +12,7 @@ namespace SEP.Models
         [DataType(DataType.Date)]
         public DateTime Date { get; set; }
         public string Venue { get; set; }
+        [Display(Name = "Time per Group")]
         public int TimePerGroup { get; set; }
         public string Unit { get; set; }
         [Display(Name = "Start From")]
